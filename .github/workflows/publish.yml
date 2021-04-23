@@ -16,8 +16,8 @@ jobs:
       - run: yarn build
       - name: Set up identity
         run: |
-          git config --local user.email "jonasz.wiacek@softwarebrothers.co"
-          git config --local user.name "Firebase AdminBro"
+          git config --local user.email "bayusetiawan37@gmail.com"
+          git config --local user.name "Bayu Setiawan"
       - run: yarn publish --new-version ${GITHUB_REF##*/}
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}

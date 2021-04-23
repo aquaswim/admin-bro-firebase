@@ -1,8 +1,13 @@
 import { BaseProperty, BaseRecord, BaseResource, Filter } from 'admin-bro';
 import firebase from 'firebase';
 import { BaseRecordFactory } from './utils/base-record.factory';
-import { getEmptyInstance, Schema, toProperties } from './utils/schema';
-import { ParamsType } from 'admin-bro/types/src/backend/adapters/base-record';
+import {
+  getEmptyInstance,
+  getSchemaPaths,
+  Schema,
+  toProperties,
+} from './utils/schema';
+import { ParamsType } from 'admin-bro/src/backend/adapters/record/params.type';
 import firestoreRepository, {
   FirestoreRepository,
 } from './firestore.repository';
@@ -10,6 +15,8 @@ import { unflatten } from 'flat';
 import { last } from 'lodash';
 import { getFieldToSortBy } from './utils/order';
 import DocumentData = firebase.firestore.DocumentData;
+import { decorators } from './property.decorator';
+import { pick } from 'lodash';
 
 class FirestoreResource extends BaseResource {
   private static DB_TYPE = 'Firestore';
@@ -120,7 +127,7 @@ class FirestoreResource extends BaseResource {
     updateData: Record<string, unknown>
   ): Promise<ParamsType> {
     const record = await this.repository.updateOne(id, updateData);
-    return this.toBaseRecord(record);
+    return this.parseData(record);
   }
 
   async create(params: Record<string, unknown>): Promise<ParamsType> {
@@ -128,7 +135,7 @@ class FirestoreResource extends BaseResource {
     const instance = Object.assign(emptyInstance, unflatten(params));
 
     const record = await this.repository.create(instance);
-    return this.toBaseRecord(record);
+    return this.parseData(record);
   }
 
   delete(id: string): Promise<void> {
@@ -137,6 +144,19 @@ class FirestoreResource extends BaseResource {
 
   private toBaseRecord(record: DocumentData): BaseRecord {
     return this.baseResourceFactory.toBaseRecord(record);
+  }
+
+  private parseData(record: DocumentData): ParamsType {
+    return Object.entries({
+      ...pick(record.data(), getSchemaPaths(this.schema)),
+      id: record.id,
+    }).reduce(
+      (previousValue, [key, value]) => ({
+        ...previousValue,
+        [key]: decorators[this.schema[key]]?.(value) ?? value,
+      }),
+      {}
+    );
   }
 
   async populate(records: BaseRecord[]): Promise<BaseRecord[]> {
