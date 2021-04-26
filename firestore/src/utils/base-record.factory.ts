@@ -1,9 +1,9 @@
-import { BaseRecord } from 'admin-bro';
-import BaseResource from 'admin-bro/types/src/backend/adapters/resource/base-resource';
+import { BaseRecord, BaseResource } from 'admin-bro';
 import { getSchemaPaths, Schema } from './schema';
 import { pick } from 'lodash';
-import DocumentData = firebase.firestore.DocumentData;
 import { decorators } from '../property.decorator';
+import firebase from 'firebase';
+import DocumentData = firebase.firestore.DocumentData;
 
 export class BaseRecordFactory {
   private readonly resource: BaseResource;
