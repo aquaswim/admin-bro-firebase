@@ -1,4 +1,4 @@
-import { Schema } from 'admin-bro-firebase';
+import { Schema } from '@aquaswim/admin-bro-firebase';
 
 export const userSchema: Schema = {
   name: 'string',
