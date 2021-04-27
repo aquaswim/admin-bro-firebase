@@ -26,6 +26,9 @@ jobs:
             ${{ runner.os }}-yarn-
       - name: Install dependencies
         run: yarn
+      - name: Install dependencies in example
+        run: yarn
+        working-directory: example
       - name: Lint code
         run: yarn lint
       - name: Test unit
@@ -33,4 +36,4 @@ jobs:
       - name: Link local version of package
         run: yarn link
       - name: Test e2e
-        run: (cd example && yarn link @aquaswim/admin-bro-firebase && yarn --verbose && yarn dev & wait-on -t 120000 http://localhost:3000/admin) && yarn test:e2e
+        run: (cd example && yarn link @aquaswim/admin-bro-firebase && yarn dev & wait-on -t 120000 http://localhost:3000/admin) && yarn test:e2e
