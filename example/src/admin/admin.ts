@@ -1,5 +1,5 @@
-import AdminBroExpress from 'admin-bro-expressjs';
-import { FirestoreAdapter } from 'admin-bro-firebase';
+import AdminBroExpress from '@admin-bro/express';
+import { FirestoreAdapter } from '@aquaswim/admin-bro-firebase';
 import AdminBro from 'admin-bro';
 import { Express } from 'express';
 import { createUserResource } from './resources/user/user.resource';

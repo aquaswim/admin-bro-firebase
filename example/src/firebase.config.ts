@@ -1,10 +1,8 @@
 export const firebaseConfig = {
   apiKey: process.env.FIREBASE_API_KEY,
-  authDomain: 'admin-bro-firebase.firebaseapp.com',
-  databaseURL: 'https://admin-bro-firebase.firebaseio.com',
-  projectId: 'admin-bro-firebase',
-  storageBucket: 'admin-bro-firebase.appspot.com',
-  messagingSenderId: '161597314619',
-  appId: '1:161597314619:web:0a83369704ad035d41ee1e',
-  measurementId: 'G-0WNND55MQH',
+  authDomain: 'adminbro-7d972.firebaseapp.com',
+  projectId: 'adminbro-7d972',
+  storageBucket: 'adminbro-7d972.appspot.com',
+  messagingSenderId: '11195319258',
+  appId: '1:11195319258:web:18bf8e0b806e2db067f6e3',
 };

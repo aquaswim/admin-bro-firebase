@@ -34,3 +34,5 @@ jobs:
         run: yarn link
       - name: Test e2e
         run: (cd example && yarn link @aquaswim/admin-bro-firebase && yarn && yarn dev & yarn wait-on -t 120000 http://localhost:3000/admin) && yarn test:e2e
+        env:
+          FIREBASE_API_KEY: {{secrets.E2E_FIREBASE_APIKEY}}
