@@ -6,11 +6,9 @@ let firebaseApp;
 
 const getUserData = async (): Promise<Record<string, unknown>> =>
   new Promise((resolve, reject) => {
-    const rejectLogin = setTimeout(reject, 5000);
-    firebaseApp.auth().onAuthStateChanged(function (user) {
-      clearTimeout(rejectLogin);
-      resolve(user?.toJSON?.());
-    });
+    const user = firebaseApp.auth().currentUser;
+    if (user) resolve(user?.toJSON?.());
+    else reject();
   });
 
 export const authenticateWithFirebase = async (
@@ -18,9 +16,10 @@ export const authenticateWithFirebase = async (
   password: string
 ): Promise<Record<string, unknown> | null> => {
   try {
-    await firebaseApp.auth().signInWithEmailAndPassword(email, password);
-    const user = await getUserData();
-    return user;
+    const userCred = await firebaseApp
+      .auth()
+      .signInWithEmailAndPassword(email, password);
+    return userCred.user;
   } catch (e) {
     console.error(e);
     return null;
